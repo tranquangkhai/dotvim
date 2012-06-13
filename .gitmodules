@@ -1,6 +1,4 @@
-[submodule "vim-ref"]
-	path = vim-ref
-	url = http://github.com/thinca/vim-ref.git
 [submodule "bundle/vim-ref"]
 	path = bundle/vim-ref
 	url = http://github.com/thinca/vim-ref.git
+	ignore = dirty
