@@ -1,6 +1,7 @@
 " An example for a vimrc file.
 "
 " Maintainer:	Bram Moolenaar <Bram@vim.org>
+" 		Tran Quang Khai <tranquangkhai.vn@gmail.com>
 " Last change:	2008 Jul 02
 "
 " To use it, copy it to
@@ -104,6 +105,7 @@ endif
 
 
 """ ref.vim setting
+let g:ref_use_vimproc = 0 " without installing vimproc
 nmap ,ra :<C-u>Ref alc<Space>
 
 let g:ref_phpmanual_path = $HOME . '/phpmanual'
