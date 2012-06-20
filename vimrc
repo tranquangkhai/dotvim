@@ -15,9 +15,21 @@ if v:progname =~? "evim"
   finish
 endif
 
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
+" vundle
+set nocompatible	" be iMproved
+filetype off		" required
+
+set rtp+=~/.vim/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required!
+Bundle "gmarik/vundle"
+
+" github
+Bundle "Shougo/neocomplcache"
+
+filetype plugin indent on
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -106,3 +118,4 @@ nmap ,ra :<C-u>Ref alc<Space>
 let g:ref_phpmanual_path = $HOME . '/phpmanual'
 let g:ref_alc_cmd='w3m -O UFT-8 -dump %s'
 
+" vundle
