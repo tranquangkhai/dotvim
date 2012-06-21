@@ -22,11 +22,8 @@ filetype off		" required
 set rtp+=~/.vim/vundle/
 call vundle#rc()
 
-" let Vundle manage Vundle
-" required!
-Bundle "gmarik/vundle"
-
 " github
+Bundle "gmarik/vundle"
 Bundle "Shougo/neocomplcache"
 
 filetype plugin indent on
@@ -118,4 +115,5 @@ nmap ,ra :<C-u>Ref alc<Space>
 let g:ref_phpmanual_path = $HOME . '/phpmanual'
 let g:ref_alc_cmd='w3m -O UFT-8 -dump %s'
 
-" vundle
+" neocomplcache setting
+let g:neocomplcache_enable_at_startup = 1
