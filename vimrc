@@ -1,32 +1,21 @@
 " An example for a vimrc file.
 "
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" 		Tran Quang Khai <tranquangkhai.vn@gmail.com>
-" Last change:	2008 Jul 02
+" Maintainer: Tran Quang Khai <tranquangkhai.vn@gmail.com>
 "
 " To use it, copy it to
 "     for Unix and OS/2:  ~/.vimrc
 "	      for Amiga:  s:.vimrc
 "  for MS-DOS and Win32:  $VIM\_vimrc
 "	    for OpenVMS:  sys$login:.vimrc
-
+" default {{{
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
   finish
 endif
 
-" vundle
-set nocompatible	" be iMproved
-filetype off		" required
-
-set rtp+=~/.vim/vundle/
-call vundle#rc()
-
-" github
-Bundle "gmarik/vundle"
-Bundle "Shougo/neocomplcache"
-
-filetype plugin indent on
+" Use Vim settings, rather than Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -36,15 +25,6 @@ if has("vms")
 else
   set backup		" keep a backup file
 endif
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
-set number		" display number line
-set hlsearch		" highlight search
-
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -52,11 +32,6 @@ map Q gq
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
-
-" In many terminal emulators the mouse works just fine, thus enable it.
-if has('mouse')
-  set mouse=a
-endif
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -98,6 +73,270 @@ else
   set autoindent		" always set autoindenting on
 
 endif " has("autocmd")
+"}}}
+
+" Settings: -----------------------------
+" {{{ reset augroup vimrc
+augroup vimrc
+	autocmd!
+augroup END
+"}}}
+" {{{ .vimrc editing and reloading
+
+" automatic reloading
+if has("autocmd")
+	autocmd vimrc BufWritePost .vimrc,~/.vim/vimrc,~/.vim/vimrc.local
+				\  source $MYVIMRC
+				\| if has('gui_running')
+				\|     source $MYGVIMRC
+				\| endif
+endif
+
+function! s:open_vimrc(command, vimrc)
+	if empty(bufname("%")) && ! &modified && empty(&buftype)
+		execute 'edit' a:vimrc
+	else
+		execute a:command a:vimrc
+	endif
+endfunction
+nnoremap <silent> <leader>v :call <sid>open_vimrc('vsplit', $MYVIMRC)<CR>
+nnoremap <silent> <C-w><leader>v :call <sid>open_vimrc('tabnew', $MYVIMRC)<CR>
+
+" }}}
+" {{{ encoding and format
+
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,euc-jp,sjis,iso-2022-jp,cp932
+
+set fileformat=unix
+set fileformats=unix,dos,mac
+
+" }}}
+" {{{ indenting
+
+" these below are the defaults. maybe overridden later
+set tabstop=4
+set shiftwidth=4
+set noexpandtab
+"set autoindent
+set copyindent
+set cindent
+
+" define indentation around parentheses.
+set cinoptions=(0,u0,U0
+" do not indent before C++ scope declarations: public; protected; private;
+set cinoptions+=g0
+" do not indent function return type
+set cinoptions+=t0
+" do not indent inside namespace
+set cinoptions+=N-s
+
+" }}}
+" {{{ terminal titles
+
+" for 'screen'
+if $STY != ''
+	set t_ts=k
+	set t_fs=\
+	set titlestring=%t
+	set title
+endif
+
+" }}}
+" folding {{{
+
+" default folding
+set foldmethod=marker 
+set foldmarker={{{,}}}
+"}}}
+"{{{ status line
+" show incomplete commands
+set showcmd
+
+" list candidates in statusline for commandline completion
+set wildmenu
+set wildmode=longest,list
+set wildignore=*~
+
+" hide mode in command line
+set noshowmode
+
+" always show statusline
+set laststatus=2
+
+""set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
+"}}}
+" {{{ search
+
+set incsearch   " do incremental searching
+set smartcase   " but don't ignore it, when search string contains uppercase letters
+set ignorecase  " ignore case
+set showmatch   " showmatch: Show the matching bracket for the last ')'?
+set wrapscan    " search wrap around the end of the file
+set report=0    " report always the number of lines changed
+set matchpairs+=<:>
+
+" }}}
+"{{{ key mappings
+" list and open buffer
+nnoremap gb :ls<CR>:buf<Space>
+
+" make <c-l> clear the highlight as well as redraw
+nnoremap <silent> <C-L> :nohls<CR><C-L>
+
+" reselect visual block after indent/unindent
+vnoremap < <gv
+vnoremap > >gv
+
+" natural movement for wrapped lines
+noremap j gj
+noremap gj j
+noremap k gk
+noremap gk k
+
+" toggle wrap
+nnoremap <silent> mw :set wrap!<CR>
+
+" toggle list
+nnoremap <silent> ml :set list!<CR>
+
+" disable command-line window
+nnoremap q: :q
+"}}}
+" {{{ wincmd
+
+let s:wincmd_keys = ['h', 'j', 'k', 'l', 'w', 'p']
+let s:wincmd_keys_keep_insert = ['H', 'J', 'K', 'L', '=', '>', '<', '+', '-']
+
+" <C-w> in insert mode.
+function! s:define_wincmds()
+	for cmd in s:wincmd_keys
+		execute 'inoremap <silent>' '<C-w>'.cmd '<ESC>:wincmd '.cmd.'<CR>'
+	endfor
+	for cmd in s:wincmd_keys_keep_insert
+		execute 'inoremap <silent>' '<C-w>'.cmd '<C-o>:wincmd '.cmd.'<CR>'
+	endfor
+endfunction
+call s:define_wincmds()
+
+" wincmd mode
+function! s:echomode(...)
+	if ! &showmode
+		return
+	endif
+
+	let mode = ''
+	if a:0 > 0
+		let mode = '-- '.a:000[0].' --'
+	endif
+
+	echohl ModeMsg | echo mode | echohl None
+	redraw
+endfunction
+
+function! s:wincmdmode()
+	while 1
+		call s:echomode('RESIZE')
+		let key = nr2char(getchar())
+		if index(s:wincmd_keys, key) < 0 &&
+					\ index(s:wincmd_keys_keep_insert, key) < 0
+			break
+		endif
+		execute 'wincmd' key
+		redraw
+	endwhile
+	call s:echomode()
+endfunction
+
+let s:wincmd_mode_trigger_keys = ['>', '<', '+', '-']
+function! s:define_wincmd_mode_triggers()
+	for cmd in s:wincmd_mode_trigger_keys
+		execute 'nnoremap <silent>' '<C-w>'.cmd '<C-w>'.cmd.':call <sid>wincmdmode()<CR>'
+	endfor
+endfunction
+call s:define_wincmd_mode_triggers()
+
+" reset window size on VimResized
+function! s:on_resized()
+	let tab = tabpagenr()
+	tabdo wincmd =
+	execute 'normal!' tab.'gt'
+endfunction
+au vimrc VimResized * call <sid>on_resized()
+
+" }}}
+" {{{ miscellaneous
+
+" do not wrap text by default.
+set nowrap
+
+" when wrap is on...
+let &showbreak = '> '
+set linebreak
+set breakat&
+
+" show line number
+set number
+
+" suppress error bells
+set noerrorbells
+set novisualbell
+
+" lines before and after the current line when scrolling
+set scrolloff=2
+
+" show tab as >---
+set listchars+=tab:>-
+
+" split direction
+set splitbelow
+set splitright
+
+" completion
+set completeopt=menuone
+
+" keep history
+set history=500
+
+" virtualedit in block mode
+set virtualedit=block
+
+" try to keep current column
+set nostartofline
+
+"function! s:ibusdisable()
+"python << EOF
+"try:
+"	import ibus
+"	bus = ibus.Bus()
+"	ic = ibus.InputContext(bus, bus.current_input_contxt())
+"	ic.disable()
+"except: pass
+"EOF
+"endfunction
+"autocmd vimrc InsertLeave * call <sid>ibusdisable()
+
+" }}}
+
+" FileType: ---------------------
+" Python {{{
+
+"autocmd FileType python let g:pydiction_location= '~/.vim/bundle/Pydiction/complete-dict'
+autocmd FileType python setl autoindent
+autocmd FileType python setl nosmartindent
+autocmd FileType python setl smarttab
+autocmd FileType python setl cindent
+autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
+autocmd FileType python setl textwidth=80
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+let python_highlight_all = 1
+nnoremap gpy :!/usr/local/bin/ctags -R --python-kinds=-i *.py<CR>
+
+"}}}
+
+" Commands: ---------------------
+" {{{ :DiffOrig
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -107,6 +346,242 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
+" }}}
+
+" Plugins: ----------------------
+filetype plugin on
+filetype plugin indent off
+" {{{ neobundle
+"execute :NeoBundleInstall
+if has('vim_starting')
+	set rtp+=~/.vim/bundle/neobundle.vim/
+	call neobundle#rc(expand('~/.vim/bundle'))
+endif
+
+
+NeoBundleFetch 'Shougo/neobundle' 
+"}}}
+" {{{ neocomplcache
+
+NeoBundle "Shougo/neocomplcache"
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_smart_case = 1
+"}}}
+" {{{ neosnippets
+
+NeoBundle 'Shougo/neosnippet'
+
+" }}}
+" {{{ vimproc
+
+NeoBundle 'Shougo/vimproc', { 'build' : { 
+		\ 'cygwin' : 'make -f make_cygwin.mak', 
+		\ 'mac' : 'make -f make_mac.mak', 
+		\ 'unix' : 'make -f make_unix.mak', 
+		\ }, 
+		\ }
+
+"}}}
+" vimfiler{{{
+
+NeoBundle "Shougo/vimfiler"
+let g:vimfiler_as_default_explorer = 1
+
+"}}}
+" unite.vim{{{
+
+NeoBundle "Shougo/unite.vim"
+
+" <ESC> to leave Unite mode
+autocmd vimrc FileType unite nmap <buffer> <ESC> <Plug>(unite_exit)
+autocmd vimrc FileType unite imap <buffer> jj <Plug>(unite_insert_leave)
+
+" Unite action mapping
+autocmd vimrc FileType unite nnoremap <buffer><expr> sp unite#do_action('split')
+autocmd vimrc FileType unite nnoremap <buffer><expr> vsp unite#do_action('vsplit')
+autocmd vimrc FileType unite nnoremap <buffer><expr> tab unite#do_action('tabopen')
+
+" NOTE: overriding the mapping for 'gb', which was :ls :buf
+nnoremap gb :UniteWithBufferDir -buffer-name=files buffer file_mru file<CR>
+nnoremap gc :UniteWithCurrentDir -buffer-name=files buffer file_mru file<CR>
+nnoremap gl :Unite -buffer-name=files buffer file_mru file<CR>
+
+" resume
+nnoremap gn :UniteResume<CR>
+
+" config
+let g:unite_source_file_mru_limit = 200
+let g:unite_kind_openable_cd_command = 'CD'
+let g:unite_kind_openable_lcd_command = 'LCD'
+let g:unite_source_file_mru_filename_format = ''
+
+"}}}
+" unite-outline{{{
+
+NeoBundle 'h1mesuke/unite-outline'
+
+"}}}
+" unite-colorscheme{{{
+
+NeoBundle 'ujihisa/unite-colorscheme'
+
+"}}}
+" vim-colorscheme{{{
+
+NeoBundle 'flazz/vim-colorschemes'
+set t_Co=256
+set background=dark
+" solarized options
+let g:solarized_termcolors = 256
+let g:solarized_visibility = "high"
+let g:solarized_contrast = "high"
+colorscheme solarized
+
+"}}}
+" {{{ vimshell
+
+NeoBundle 'Shougo/vimshell'
+augroup vimrc-vimshell
+	au!
+
+	" Ctrl-D to exit
+	au FileType {vimshell,int-*} imap <buffer><silent> <C-d> <ESC>:q<CR>
+
+	" Disable cursor keys
+	au FileType {vimshell,int-*} imap <buffer><silent> OA <Nop>
+	au FileType {vimshell,int-*} imap <buffer><silent> OB <Nop>
+	" au FileType {vimshell,int-*} imap <buffer><silent> OC <Nop>
+	" au FileType {vimshell,int-*} imap <buffer><silent> OD <Nop>
+
+	" Switch to insert mode on BufEnter
+	au BufEnter *vimshell* call vimshell#start_insert()
+	au BufEnter iexe-*,texe-* startinsert!
+augroup END
+
+" Interactive
+function! s:open_vimshellinteractive()
+	let default = ''
+	if has_key(g:vimshell_interactive_interpreter_commands, &filetype)
+		let default = g:vimshell_interactive_interpreter_commands[&filetype]
+	endif
+	let interp = input("Interpreter: ", default)
+	execute 'VimShellInteractive' interp
+endfunction
+nnoremap <silent> gsi :call <sid>open_vimshellinteractive()<CR>
+
+" Terminal
+function! s:open_vimshellterminal()
+	let shell = input("Interpreter: ")
+	execute 'VimShellTerminal' shell
+endfunction
+nnoremap <silent> gst :call <sid>open_vimshellterminal()<CR>
+
+" Shell
+nnoremap <silent> gsh :VimShellPop <C-R>=expand('%:h:p')<CR><CR>
+au vimrc-vimshell FileType vimshell call vimshell#altercmd#define('sl', 'ls')
+au vimrc-vimshell FileType vimshell call vimshell#altercmd#define('ll', 'ls -l')
+
+" Python
+nnoremap <silent> gspy :VimShellTerminal ipython -colors NoColor<CR>
+hi termipythonPrompt ctermfg=40
+hi termipythonOutput ctermfg=9
+
+"}}}
+" tagbar{{{
+
+NeoBundle 'majutsushi/tagbar'
+let g:tagbar_ctags_bin='/usr/local/bin/ctags'
+let g:tagbar_width=26
+nnoremap gtb :TagbarToggle<CR>
+
+"}}}
+" sudo-gui{{{
+
+NeoBundle "gmarik/sudo-gui.vim"
+
+"}}}
+" The-NERD-tree{{{
+
+NeoBundle "The-NERD-tree"
+let g:NERDTreeShowHidden=0
+nmap <C-N> :NERDTreeToggle<CR>
+
+"}}}
+" {{{ minibufexpl
+
+NeoBundle "fholgado/minibufexpl.vim"
+
+"}}}
+" {{{ syntastic
+
+NeoBundle "scrooloose/syntastic"
+let g:syntastic_check_on_open=1
+
+"}}}
+" vim-powerline{{{
+
+NeoBundle 'Lokaltog/vim-powerline'
+let g:Powerline_stl_path_style = 'full'
+"}}}
+"Bundle "simple-pairs
+NeoBundle 'Pydiction'
+NeoBundle "python.vim"
+NeoBundle "nvie/vim-flake8"
+" {{{ matchit
+
+NeoBundle 'matchit.zip'
+
+" }}}
+" vim-autoclose{{{
+
+NeoBundle 'yuroyoro/vim-autoclose'
+
+"}}}
+" surround{{{
+
+NeoBundle 'surround.vim'
+
+"}}}
+" vim-template{{{
+
+NeoBundle 'thinca/vim-template'
+
+"}}}
+" vim-latex "{{{
+""NeoBundle "jcf/vim-latex.git"
+""filetype indent on
+""set shellslash
+""set grepprg=grep\ -nH\ $*
+""let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
+""let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
+""let g:Tex_FormatDependency_pdf = 'dvi,pdf'
+""let g:Tex_BibtexFlavor = 'pbibtex -kanji=utf8'
+
+"}}}
+" tex.vim{{{
+
+NeoBundle 'tex.vim'
+filetype indent on
+set shellslash
+set grepprg=grep\ -nH\ $*
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
+let g:Tex_CompileRule_dvipdf = 'dvipdfmx $*.dvi'
+let g:Tex_FormatDependency_pdf = 'dvi,pdf'
+let g:Tex_BibtexFlavor = 'pbibtex -kanji=utf8'
+let g:tex_flavor='latex'
+
+"}}}
+" Working with split screen nicely
+" Resize Split When the window is resized"
+au VimResized * :wincmd =
+
+" Test
+NeoBundle "reinh/vim-makegreen"
+NeoBundle "lambdalisue/nose.vim"
+
+
+filetype plugin indent on
 
 """ ref.vim setting
 let g:ref_use_vimproc = 0 " without installing vimproc
@@ -114,6 +589,3 @@ nmap ,ra :<C-u>Ref alc<Space>
 
 let g:ref_phpmanual_path = $HOME . '/phpmanual'
 let g:ref_alc_cmd='w3m -O UFT-8 -dump %s'
-
-" neocomplcache setting
-let g:neocomplcache_enable_at_startup = 1
