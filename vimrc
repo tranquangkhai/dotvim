@@ -322,7 +322,6 @@ set nostartofline
 " FileType: ---------------------
 " Python {{{
 
-"autocmd FileType python let g:pydiction_location= '~/.vim/bundle/Pydiction/complete-dict'
 autocmd FileType python setl autoindent
 autocmd FileType python setl nosmartindent
 autocmd FileType python setl smarttab
@@ -359,7 +358,7 @@ if has('vim_starting')
 endif
 
 
-NeoBundleFetch 'Shougo/neobundle' 
+NeoBundleFetch "Shougo/neobundle.vim"
 "}}}
 " {{{ neocomplcache
 
@@ -524,7 +523,6 @@ NeoBundle 'Lokaltog/vim-powerline'
 let g:Powerline_stl_path_style = 'full'
 "}}}
 "Bundle "simple-pairs
-NeoBundle 'Pydiction'
 NeoBundle "python.vim"
 NeoBundle "nvie/vim-flake8"
 " {{{ matchit
@@ -547,30 +545,18 @@ NeoBundle 'surround.vim'
 NeoBundle 'thinca/vim-template'
 
 "}}}
-" vim-latex "{{{
-""NeoBundle "jcf/vim-latex.git"
-""filetype indent on
-""set shellslash
-""set grepprg=grep\ -nH\ $*
-""let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
-""let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
-""let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-""let g:Tex_BibtexFlavor = 'pbibtex -kanji=utf8'
-
-"}}}
-" tex.vim{{{
-
-NeoBundle 'tex.vim'
-filetype indent on
+" vim-latex {{{
+NeoBundle "jcf/vim-latex"
+let g:tex_flavor = 'latex'
+au BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
 set shellslash
-set grepprg=grep\ -nH\ $*
+set grepprg=grep\ -nH\ $*'
 let g:Tex_DefaultTargetFormat = 'pdf'
 let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
-let g:Tex_CompileRule_dvipdf = 'dvipdfmx $*.dvi'
+let g:Tex_BibtextFlavor = 'pbibtex'
 let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-let g:Tex_BibtexFlavor = 'pbibtex -kanji=utf8'
-let g:tex_flavor='latex'
-
+let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
+let g:Tex_ViewRule_pdf = 'open -a Preview.app'
 "}}}
 " Working with split screen nicely
 " Resize Split When the window is resized"
@@ -581,11 +567,5 @@ NeoBundle "reinh/vim-makegreen"
 NeoBundle "lambdalisue/nose.vim"
 
 
+filetype indent on
 filetype plugin indent on
-
-""" ref.vim setting
-let g:ref_use_vimproc = 0 " without installing vimproc
-nmap ,ra :<C-u>Ref alc<Space>
-
-let g:ref_phpmanual_path = $HOME . '/phpmanual'
-let g:ref_alc_cmd='w3m -O UFT-8 -dump %s'
