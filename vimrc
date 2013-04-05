@@ -266,6 +266,12 @@ endfunction
 au vimrc VimResized * call <sid>on_resized()
 
 " }}}
+"{{{ Persistent undo
+set undodir=~/.vim/undodir
+set undofile
+set undolevels=1000 "maximum number of changes that can be undone
+set undoreload=10000 "maximum number lines to save for undo on buffer reload
+"}}}
 " {{{ miscellaneous
 
 " do not wrap text by default.
@@ -332,6 +338,11 @@ autocmd FileType python set omnifunc=pythoncomplete#Complete
 let python_highlight_all = 1
 nnoremap gpy :!/usr/local/bin/ctags -R --python-kinds=-i *.py<CR>
 
+"}}}
+" Ruby {{{
+autocmd FileType ruby setl autoindent
+autocmd FileType ruby setl expandtab
+autocmd FileType ruby setl tabstop=2 shiftwidth=2 softtabstop=2
 "}}}
 
 " Commands: ---------------------
@@ -508,7 +519,7 @@ nmap <C-N> :NERDTreeToggle<CR>
 "}}}
 " {{{ minibufexpl
 
-NeoBundle "fholgado/minibufexpl.vim"
+"NeoBundle "fholgado/minibufexpl.vim"
 
 "}}}
 " {{{ syntastic
@@ -566,6 +577,14 @@ au VimResized * :wincmd =
 NeoBundle "reinh/vim-makegreen"
 NeoBundle "lambdalisue/nose.vim"
 
+" vim-ruby {{{
+NeoBundle "vim-ruby/vim-ruby"
+compiler ruby
+"}}}
+
+" vim-rails {{{
+NeoBundle "tpope/vim-rails"
+"}}}
 
 filetype indent on
 filetype plugin indent on
