@@ -395,7 +395,7 @@ NeoBundle 'Shougo/vimproc', { 'build' : {
 " vimfiler{{{
 
 NeoBundle "Shougo/vimfiler"
-let g:vimfiler_as_default_explorer = 1
+""let g:vimfiler_as_default_explorer=1
 
 "}}}
 " unite.vim{{{
@@ -424,11 +424,15 @@ let g:unite_source_file_mru_limit = 200
 let g:unite_kind_openable_cd_command = 'CD'
 let g:unite_kind_openable_lcd_command = 'LCD'
 let g:unite_source_file_mru_filename_format = ''
+let g:unite_enable_start_insert = 1
 
 "}}}
 " unite-outline{{{
 
 NeoBundle 'h1mesuke/unite-outline'
+
+" outline
+nnoremap go :Unite -auto-preview outline<CR>
 
 "}}}
 " unite-colorscheme{{{
@@ -443,10 +447,15 @@ set t_Co=256
 set background=dark
 " solarized options
 let g:solarized_termcolors = 256
-let g:solarized_visibility = "high"
-let g:solarized_contrast = "high"
+let g:solarized_bold = 0
+let g:solarized_underline = 0
+let g:solarized_termtrans = 0
+let g:solarized_visibility = "normal"
+let g:solarized_contrast = "normal"
 colorscheme solarized
-
+"}}}
+"unite-font{{{
+NeoBundle "ujihisa/unite-font"
 "}}}
 " {{{ vimshell
 
@@ -500,7 +509,12 @@ hi termipythonOutput ctermfg=9
 " tagbar{{{
 
 NeoBundle 'majutsushi/tagbar'
-let g:tagbar_ctags_bin='/usr/local/bin/ctags'
+if has("mac")
+	let g:tagbar_ctags_bin='/usr/local/bin/ctags'
+endif
+if has("unix")
+	let g:tagbar_ctags_bin='/usr/bin/ctags'
+endif
 let g:tagbar_width=26
 nnoremap gtb :TagbarToggle<CR>
 
@@ -510,28 +524,19 @@ nnoremap gtb :TagbarToggle<CR>
 NeoBundle "gmarik/sudo-gui.vim"
 
 "}}}
-" The-NERD-tree{{{
-
-NeoBundle "The-NERD-tree"
-let g:NERDTreeShowHidden=0
-nmap <C-N> :NERDTreeToggle<CR>
-
-"}}}
 " {{{ minibufexpl
 
 "NeoBundle "fholgado/minibufexpl.vim"
-
-"}}}
-" {{{ syntastic
-
-NeoBundle "scrooloose/syntastic"
-let g:syntastic_check_on_open=1
 
 "}}}
 " vim-powerline{{{
 
 NeoBundle 'Lokaltog/vim-powerline'
 let g:Powerline_stl_path_style = 'full'
+
+"}}}
+" powertabline {{{
+NeoBundle 'alpaca-tc/alpaca_powertabline'
 "}}}
 "Bundle "simple-pairs
 NeoBundle "python.vim"
@@ -567,7 +572,7 @@ let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
 let g:Tex_BibtextFlavor = 'pbibtex'
 let g:Tex_FormatDependency_pdf = 'dvi,pdf'
 let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
-let g:Tex_ViewRule_pdf = 'open -a Preview.app'
+let g:Tex_ViewRule_pdf = 'gnome-open'
 "}}}
 " Working with split screen nicely
 " Resize Split When the window is resized"
