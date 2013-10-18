@@ -572,7 +572,12 @@ let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
 let g:Tex_BibtextFlavor = 'pbibtex'
 let g:Tex_FormatDependency_pdf = 'dvi,pdf'
 let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
-let g:Tex_ViewRule_pdf = 'gnome-open'
+if has("mac")
+	let g:Tex_ViewRule_pdf = 'open -a Preview.app'
+endif
+if has("unix")
+	let g:Tex_ViewRule_pdf = 'gnome-open'
+endif
 "}}}
 " Working with split screen nicely
 " Resize Split When the window is resized"
