@@ -446,12 +446,9 @@ NeoBundle 'flazz/vim-colorschemes'
 set t_Co=256
 set background=dark
 " solarized options
-let g:solarized_termcolors = 256
+let g:solarized_termcolors = 16
 let g:solarized_bold = 0
 let g:solarized_underline = 0
-let g:solarized_termtrans = 0
-let g:solarized_visibility = "normal"
-let g:solarized_contrast = "normal"
 colorscheme solarized
 "}}}
 "unite-font{{{
@@ -511,8 +508,7 @@ hi termipythonOutput ctermfg=9
 NeoBundle 'majutsushi/tagbar'
 if has("mac")
 	let g:tagbar_ctags_bin='/usr/local/bin/ctags'
-endif
-if has("unix")
+elseif has("unix")
 	let g:tagbar_ctags_bin='/usr/bin/ctags'
 endif
 let g:tagbar_width=26
@@ -530,10 +526,10 @@ NeoBundle "gmarik/sudo-gui.vim"
 
 "}}}
 " vim-powerline{{{
-
 NeoBundle 'Lokaltog/vim-powerline'
+set guifont=Anonymous\ Pro\ for\ Powerline
 let g:Powerline_stl_path_style = 'full'
-
+let g:Powerline_symbols = 'fancy'
 "}}}
 " powertabline {{{
 NeoBundle 'alpaca-tc/alpaca_powertabline'
@@ -569,13 +565,13 @@ set shellslash
 set grepprg=grep\ -nH\ $*'
 let g:Tex_DefaultTargetFormat = 'pdf'
 let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
-let g:Tex_BibtextFlavor = 'pbibtex'
 let g:Tex_FormatDependency_pdf = 'dvi,pdf'
 let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
 if has("mac")
-	let g:Tex_ViewRule_pdf = 'open -a Preview.app'
-endif
-if has("unix")
+	let g:Tex_BibtextFlavor = 'jbibtex'
+	let g:Tex_ViewRule_pdf = 'Preview.app'
+elseif has("unix")
+	let g:Tex_BibtextFlavor = 'pbibtex'
 	let g:Tex_ViewRule_pdf = 'gnome-open'
 endif
 "}}}
@@ -591,10 +587,14 @@ NeoBundle "lambdalisue/nose.vim"
 NeoBundle "vim-ruby/vim-ruby"
 compiler ruby
 "}}}
-
 " vim-rails {{{
 NeoBundle "tpope/vim-rails"
 "}}}
-
+" comments{{{
+NeoBundle "comments.vim"
+"}}}
+" Ctrlp{{{
+NeoBundle "kien/ctrlp.vim"
+"}}}
 filetype indent on
 filetype plugin indent on
