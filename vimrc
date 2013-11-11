@@ -323,6 +323,11 @@ set nostartofline
 "endfunction
 "autocmd vimrc InsertLeave * call <sid>ibusdisable()
 
+" Working with split screen nicely
+" Resize Split When the window is resized"
+au VimResized * :wincmd =
+
+
 " }}}
 
 " FileType: ---------------------
@@ -446,7 +451,7 @@ NeoBundle 'flazz/vim-colorschemes'
 set t_Co=256
 set background=dark
 " solarized options
-let g:solarized_termcolors = 16
+let g:solarized_termcolors = 256
 let g:solarized_bold = 0
 let g:solarized_underline = 0
 colorscheme solarized
@@ -520,27 +525,20 @@ nnoremap gtb :TagbarToggle<CR>
 NeoBundle "gmarik/sudo-gui.vim"
 
 "}}}
-" {{{ minibufexpl
-
-"NeoBundle "fholgado/minibufexpl.vim"
-
-"}}}
 " vim-powerline{{{
 NeoBundle 'Lokaltog/vim-powerline'
-set guifont=Anonymous\ Pro\ for\ Powerline
-let g:Powerline_stl_path_style = 'full'
+"set guifont=Anonymous\ Pro\ for\ Powerline
+" let g:Powerline_stl_path_style = 'full'
 let g:Powerline_symbols = 'fancy'
+set fillchars+=stl:\ ,stlnc:\
 "}}}
 " powertabline {{{
 NeoBundle 'alpaca-tc/alpaca_powertabline'
 "}}}
-"Bundle "simple-pairs
 NeoBundle "python.vim"
 NeoBundle "nvie/vim-flake8"
 " {{{ matchit
-
 NeoBundle 'matchit.zip'
-
 " }}}
 " vim-autoclose{{{
 
@@ -575,14 +573,6 @@ elseif has("unix")
 	let g:Tex_ViewRule_pdf = 'gnome-open'
 endif
 "}}}
-" Working with split screen nicely
-" Resize Split When the window is resized"
-au VimResized * :wincmd =
-
-" Test
-NeoBundle "reinh/vim-makegreen"
-NeoBundle "lambdalisue/nose.vim"
-
 " vim-ruby {{{
 NeoBundle "vim-ruby/vim-ruby"
 compiler ruby
@@ -595,6 +585,9 @@ NeoBundle "comments.vim"
 "}}}
 " Ctrlp{{{
 NeoBundle "kien/ctrlp.vim"
+"}}}
+" vim-fugitive {{{
+NeoBundle "tpope/vim-fugitive"
 "}}}
 filetype indent on
 filetype plugin indent on
