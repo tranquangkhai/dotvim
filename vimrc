@@ -339,7 +339,7 @@ autocmd FileType python setl smarttab
 autocmd FileType python setl cindent
 autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
 autocmd FileType python setl textwidth=80
-autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType python set omnifunc=jedi#completions
 let python_highlight_all = 1
 nnoremap gpy :!/usr/local/bin/ctags -R --python-kinds=-i *.py<CR>
 
@@ -537,6 +537,7 @@ NeoBundle 'alpaca-tc/alpaca_powertabline'
 "}}}
 NeoBundle "python.vim"
 NeoBundle "nvie/vim-flake8"
+NeoBundle "davidhalter/jedi-vim"
 " {{{ matchit
 NeoBundle 'matchit.zip'
 " }}}
@@ -550,6 +551,11 @@ NeoBundle 'yuroyoro/vim-autoclose'
 NeoBundle 'surround.vim'
 
 "}}}
+" Align {{{
+NeoBundle 'Align.vim'
+"}}}
+
+NeoBundle 'YankRing.vim'
 " vim-template{{{
 
 NeoBundle 'thinca/vim-template'
@@ -566,7 +572,7 @@ let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
 let g:Tex_FormatDependency_pdf = 'dvi,pdf'
 let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
 if has("mac")
-	let g:Tex_BibtextFlavor = 'jbibtex'
+	let g:Tex_BibtextFlavor = 'pbibtex'
 	let g:Tex_ViewRule_pdf = 'Preview.app'
 elseif has("unix")
 	let g:Tex_BibtextFlavor = 'pbibtex'
