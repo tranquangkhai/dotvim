@@ -405,6 +405,8 @@ NeoBundle "Shougo/vimfiler"
 "}}}
 " unite.vim{{{
 
+NeoBundle "Shougo/neomru.vim"
+
 NeoBundle "Shougo/unite.vim"
 
 " <ESC> to leave Unite mode
@@ -535,9 +537,11 @@ set fillchars+=stl:\ ,stlnc:\
 " powertabline {{{
 NeoBundle 'alpaca-tc/alpaca_powertabline'
 "}}}
+"{{{ python
 NeoBundle "python.vim"
 NeoBundle "nvie/vim-flake8"
 NeoBundle "davidhalter/jedi-vim"
+"}}}
 " {{{ matchit
 NeoBundle 'matchit.zip'
 " }}}
@@ -551,10 +555,6 @@ NeoBundle 'yuroyoro/vim-autoclose'
 NeoBundle 'surround.vim'
 
 "}}}
-" Align {{{
-NeoBundle 'Align.vim'
-"}}}
-
 NeoBundle 'YankRing.vim'
 " vim-template{{{
 
