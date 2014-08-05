@@ -272,9 +272,9 @@ set undofile
 set undolevels=1000 "maximum number of changes that can be undone
 set undoreload=10000 "maximum number lines to save for undo on buffer reload
 "}}}
-
-au QuickFixCmdPost make,grep,grepadd,vimgrep copen
-
+"{{{ grep with quickfix
+au QuickFixCmdPost *grep* copen
+"}}}
 " {{{ miscellaneous
 
 " do not wrap text by default.
@@ -435,6 +435,15 @@ let g:unite_kind_openable_cd_command = 'CD'
 let g:unite_kind_openable_lcd_command = 'LCD'
 let g:unite_source_file_mru_filename_format = ''
 let g:unite_enable_start_insert = 1
+
+" grep search
+nnoremap <silent> gp :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+
+" grep search under cursor
+nnoremap <silent> gu :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+
+" re-grep
+nnoremap <silent> gr :<C-u>UniteResume search-buffer<CR>
 
 "}}}
 " unite-outline{{{
