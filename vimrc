@@ -437,7 +437,7 @@ let g:unite_source_file_mru_filename_format = ''
 let g:unite_enable_start_insert = 1
 
 " grep search
-nnoremap <silent> gp :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+nnoremap <silent> ge :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
 
 " grep search under cursor
 nnoremap <silent> gu :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
@@ -522,7 +522,7 @@ hi termipythonPrompt ctermfg=40
 hi termipythonOutput ctermfg=9
 
 "}}}
-" tagbar{{{
+" {{{tagbar
 
 NeoBundle 'majutsushi/tagbar'
 if has("mac")
@@ -534,17 +534,17 @@ let g:tagbar_width=26
 nnoremap gtb :TagbarToggle<CR>
 
 "}}}
-" sudo-gui{{{
+" {{{sudo-gui
 
 NeoBundle "gmarik/sudo-gui.vim"
 
 "}}}
-" vim-powerline{{{
-NeoBundle 'Lokaltog/vim-powerline'
-"set guifont=Anonymous\ Pro\ for\ Powerline
-" let g:Powerline_stl_path_style = 'full'
-let g:Powerline_symbols = 'fancy'
-set fillchars+=stl:\ ,stlnc:\
+"{{{ airline
+"https://powerline.readthedocs.org/en/latest/installation/linux.html#font-installation
+NeoBundle 'bling/vim-airline'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='powerlineish'
 "}}}
 " powertabline {{{
 NeoBundle 'alpaca-tc/alpaca_powertabline'
