@@ -385,11 +385,17 @@ NeoBundle "Shougo/neocomplcache"
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
 "}}}
-" {{{ neosnippets
+" {{{ neosnippet
 
 NeoBundle 'Shougo/neosnippet'
 
 " }}}
+" {{{ neosnippet-snippets
+
+NeoBundle 'Shougo/neosnippet-snippets'
+
+" }}}
+
 " {{{ vimproc
 
 NeoBundle 'Shougo/vimproc', { 'build' : { 
@@ -606,6 +612,21 @@ NeoBundle "kien/ctrlp.vim"
 "}}}
 " vim-fugitive {{{
 NeoBundle "tpope/vim-fugitive"
+"}}}
+"{{{ gtags.vim
+NeoBundle "gtags.vim"
+"}}}
+"{{{ unite-gtags
+" gtags -v in project before using
+NeoBundle 'hewes/unite-gtags'
+nnoremap <leader>gg :execute 'Unite gtags/def:'.expand('<cword>')<CR>
+nnoremap <leader>gc :execute 'Unite gtags/context'<CR>
+nnoremap <leader>gr :execute 'Unite gtags/ref'<CR>
+nnoremap <leader>ge :execute 'Unite gtags/grep'<CR>
+vnoremap <leader>gg <ESC>:execute 'Unite gtags/def:'.GetVisualSelection()<CR>
+"}}}
+"{{{ unite-build
+NeoBundle 'Shougo/unite-build'
 "}}}
 filetype indent on
 filetype plugin indent on
