@@ -563,54 +563,53 @@ NeoBundle "davidhalter/jedi-vim"
 " {{{ matchit
 NeoBundle 'matchit.zip'
 " }}}
-" vim-autoclose{{{
+" {{{vim-autoclose
 
 NeoBundle 'yuroyoro/vim-autoclose'
 
 "}}}
-" surround{{{
+" {{{surround
 
 NeoBundle 'surround.vim'
 
 "}}}
+"{{{ yankring
 NeoBundle 'YankRing.vim'
-" vim-template{{{
+"}}}
+" {{{vim-template
 
 NeoBundle 'thinca/vim-template'
 
 "}}}
-" vim-latex {{{
+" {{{vim-latex 
 NeoBundle "jcf/vim-latex"
 let g:tex_flavor = 'latex'
 au BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
 set shellslash
 set grepprg=grep\ -nH\ $*'
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
+let g:Tex_DefaultTargetFormat  = 'pdf'
+let g:Tex_CompileRule_dvi      = 'platex --interaction=nonstopmode $*'
 let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
+let g:Tex_CompileRule_pdf      = 'dvipdfmx $*.dvi'
 if has("mac")
 	let g:Tex_BibtextFlavor = 'pbibtex'
-	let g:Tex_ViewRule_pdf = 'Preview.app'
+	let g:Tex_ViewRule_pdf  = 'Preview.app'
 elseif has("unix")
 	let g:Tex_BibtextFlavor = 'pbibtex'
-	let g:Tex_ViewRule_pdf = 'gnome-open'
+	let g:Tex_ViewRule_pdf  = 'gnome-open'
 endif
 "}}}
-" vim-ruby {{{
+" {{{vim-ruby 
 NeoBundle "vim-ruby/vim-ruby"
 compiler ruby
 "}}}
-" vim-rails {{{
+" {{{vim-rails 
 NeoBundle "tpope/vim-rails"
 "}}}
-" comments{{{
+" {{{comments
 NeoBundle "comments.vim"
 "}}}
-" Ctrlp{{{
-NeoBundle "kien/ctrlp.vim"
-"}}}
-" vim-fugitive {{{
+" {{{vim-fugitive 
 NeoBundle "tpope/vim-fugitive"
 "}}}
 "{{{ gtags.vim
@@ -627,6 +626,13 @@ vnoremap <leader>gg <ESC>:execute 'Unite gtags/def:'.GetVisualSelection()<CR>
 "}}}
 "{{{ unite-build
 NeoBundle 'Shougo/unite-build'
+"}}}
+"{{{ vim-easy-align
+NeoBundle "junegunn/vim-easy-align"
+" Start interactive Easy Align in visual mode
+vmap <Enter> <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object
+nmap ga <Plug>(EasyAlign)
 "}}}
 filetype indent on
 filetype plugin indent on
