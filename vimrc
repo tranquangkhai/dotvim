@@ -371,13 +371,24 @@ filetype plugin on
 filetype plugin indent off
 " {{{ neobundle
 "execute :NeoBundleInstall
+" Note: Skip initialization for vim-tiny or vim-small
+if !1 | finish | endif
+
 if has('vim_starting')
+	set nocompatible
+
+	" Required:
 	set rtp+=~/.vim/bundle/neobundle.vim/
-	call neobundle#rc(expand('~/.vim/bundle'))
 endif
+" Required:
+call neobundle#begin(expand('~/.vim/bundle'))
 
-
+" Let NeoBundle manage NeoBundle
+" Required:
 NeoBundleFetch "Shougo/neobundle.vim"
+
+call neobundle#end()
+
 "}}}
 " {{{ neocomplcache
 
