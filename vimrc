@@ -423,7 +423,6 @@ if has('conceal')
 NeoBundle 'Shougo/neosnippet-snippets'
 
 " }}}
-
 " {{{ vimproc
 
 NeoBundle 'Shougo/vimproc', { 'build' : { 
@@ -661,6 +660,10 @@ NeoBundle "junegunn/vim-easy-align"
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object
 nmap ga <Plug>(EasyAlign)
+"}}}
+"{{{ indentLine
+NeoBundle "Yggdroot/indentLine"
+set list lcs=tab:\>\.
 "}}}
 filetype indent on
 filetype plugin indent on
