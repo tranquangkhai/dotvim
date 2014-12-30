@@ -124,7 +124,7 @@ set copyindent
 set cindent
 
 " define indentation around parentheses.
-set cinoptions=(0,u0,U0
+set cinoptions=(0,u0,U0,w1,Ws
 " do not indent before C++ scope declarations: public; protected; private;
 set cinoptions+=g0
 " do not indent function return type
