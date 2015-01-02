@@ -481,11 +481,12 @@ nnoremap <silent> gr :<C-u>UniteResume search-buffer<CR>
 "}}}
 " unite-outline{{{
 
-NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'Shougo/unite-outline'
 
 " outline
-nnoremap go :Unite -auto-preview outline<CR>
-
+""nnoremap go :Unite -auto-preview outline<CR>
+nnoremap <silent> go :<C-u>Unite -vertical -no-quit  outline<CR>
+let g:unite_winwidth = 40
 "}}}
 " unite-colorscheme{{{
 
