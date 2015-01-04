@@ -275,6 +275,18 @@ set undoreload=10000 "maximum number lines to save for undo on buffer reload
 "{{{ grep with quickfix
 au QuickFixCmdPost *grep* copen
 "}}}
+"{{{ get running os
+function! GetRunningOS()
+	if has("unix")
+		if system('uname')=~'Darwin'
+			return 'mac'
+		else
+			return 'linux'
+		endif
+	endif
+endfunction
+let os=GetRunningOS()
+"}}}
 " {{{ miscellaneous
 
 " do not wrap text by default.
@@ -367,7 +379,6 @@ endif
 " }}}
 
 " Plugins: ----------------------
-filetype plugin on
 filetype plugin indent off
 " {{{ neobundle
 "execute :NeoBundleInstall
@@ -616,14 +627,17 @@ au BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
 set shellslash
 set grepprg=grep\ -nH\ $*'
 let g:Tex_DefaultTargetFormat  = 'pdf'
-let g:Tex_CompileRule_dvi      = 'platex --interaction=nonstopmode $*'
+let g:Tex_CompileRule_dvi      = 'platex -synctex=1 --interaction=nonstopmode $*'
 let g:Tex_FormatDependency_pdf = 'dvi,pdf'
 let g:Tex_CompileRule_pdf      = 'dvipdfmx $*.dvi'
-if has("mac")
-	let g:Tex_BibtextFlavor = 'pbibtex'
-	let g:Tex_ViewRule_pdf  = 'Preview.app'
-elseif has("unix")
-	let g:Tex_BibtextFlavor = 'pbibtex'
+let g:Tex_BibtextFlavor = 'pbibtex'
+if os =~ 'mac'
+	if has('gui_macvim')
+		let g:Tex_ViewRule_pdf = 'Skim'
+	else
+		let g:Tex_ViewRule_pdf  = 'open -a Preview.app'
+	endif
+elseif os =~ 'linux'
 	let g:Tex_ViewRule_pdf  = 'gnome-open'
 endif
 "}}}
@@ -666,5 +680,4 @@ nmap ga <Plug>(EasyAlign)
 NeoBundle "Yggdroot/indentLine"
 set list lcs=tab:\>\.
 "}}}
-filetype indent on
 filetype plugin indent on
