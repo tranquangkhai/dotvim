@@ -5,7 +5,7 @@ DOTVIM=~/.vim
 
 if [ ! -d $DOTVIM ]; then
     cd ~/
-    git clone git@github.com:tranquangkhai/dotvim.git ~/.vim
+    git clone https://github.com/tranquangkhai/dotvim.git ~/.vim
     echo "doesn't exist .vim. Git Clone .vim"
 fi
 
@@ -27,7 +27,7 @@ fi
 mkdir -p $BUNDLE
 
 # Clone NeoBundle
-git clone git://github.com/Shougo/neobundle.vim ${BUNDLE}/neobundle.vim
+git clone https://github.com/Shougo/neobundle.vim ${BUNDLE}/neobundle.vim
 
 # Create symbolic link for .vimrc
 if [ -f ~/.vimrc ]; then
