@@ -391,6 +391,9 @@ if has('vim_starting')
 	" Required:
 	set rtp+=~/.vim/bundle/neobundle.vim/
 endif
+
+"}}}
+
 " Required:
 call neobundle#begin(expand('~/.vim/bundle'))
 
@@ -398,9 +401,7 @@ call neobundle#begin(expand('~/.vim/bundle'))
 " Required:
 NeoBundleFetch "Shougo/neobundle.vim"
 
-call neobundle#end()
 
-"}}}
 " {{{ neocomplcache
 
 NeoBundle "Shougo/neocomplcache"
@@ -691,4 +692,7 @@ nmap ga <Plug>(EasyAlign)
 NeoBundle "Yggdroot/indentLine"
 set list lcs=tab:\>\.
 "}}}
+
+call neobundle#end()
+
 filetype plugin indent on
