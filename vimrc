@@ -508,13 +508,17 @@ NeoBundle 'ujihisa/unite-colorscheme'
 " vim-colorscheme{{{
 
 NeoBundle 'flazz/vim-colorschemes'
+
+"}}}
+" vim-colors-solarized {{{
+
+NeoBundle 'altercation/vim-colors-solarized'
 set t_Co=256
 set background=dark
-" solarized options
 let g:solarized_termcolors = 256
 let g:solarized_bold = 0
 let g:solarized_underline = 0
-colorscheme solarized
+
 "}}}
 "unite-font{{{
 NeoBundle "ujihisa/unite-font"
@@ -695,4 +699,7 @@ set list lcs=tab:\>\.
 
 call neobundle#end()
 
+" setting for solarized{{{
+colorscheme solarized
+"}}}
 filetype plugin indent on
