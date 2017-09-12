@@ -514,7 +514,6 @@ NeoBundle 'flazz/vim-colorschemes'
 
 NeoBundle 'altercation/vim-colors-solarized'
 set t_Co=256
-set background=dark
 let g:solarized_termcolors = 256
 let g:solarized_bold = 0
 let g:solarized_underline = 0
@@ -591,7 +590,8 @@ NeoBundle "gmarik/sudo-gui.vim"
 "}}}
 "{{{ airline
 "https://powerline.readthedocs.org/en/latest/installation/linux.html#font-installation
-NeoBundle 'bling/vim-airline'
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme='powerlineish'
@@ -700,6 +700,8 @@ set list lcs=tab:\>\.
 call neobundle#end()
 
 " setting for solarized{{{
+syntax enable
+set background=dark
 colorscheme solarized
 "}}}
 filetype plugin indent on
