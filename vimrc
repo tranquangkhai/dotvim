@@ -165,7 +165,7 @@ set noshowmode
 " always show statusline
 set laststatus=2
 
-""set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
+set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
 "}}}
 " {{{ search
 
@@ -353,7 +353,7 @@ autocmd FileType python setl nosmartindent
 autocmd FileType python setl smarttab
 autocmd FileType python setl cindent
 autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
-autocmd FileType python setl textwidth=80
+autocmd FileType python setl textwidth=79
 autocmd FileType python set omnifunc=jedi#completions
 let python_highlight_all = 1
 nnoremap gpy :!/usr/local/bin/ctags -R --python-kinds=-i *.py<CR>
@@ -379,329 +379,54 @@ endif
 " }}}
 
 " Plugins: ----------------------
-filetype plugin indent off
-" {{{ neobundle
-"execute :NeoBundleInstall
-" Note: Skip initialization for vim-tiny or vim-small
-if !1 | finish | endif
+"{{{ vim-flake8: to run the Flake8 check every time you write a Python file
+"autocmd BufWritePost *.py call Flake8()
+"}}}
+"{{{ syntastic: recommended settings for newcomers
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-if has('vim_starting')
-	set nocompatible
-
-	" Required:
-	set rtp+=~/.vim/bundle/neobundle.vim/
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" for python
+let g:syntastic_python_checkers = ['python', 'flake8']
+"}}}
+"{{{ python with virtualenv support
+python3 << EOF
+import os
+virtualenv = os.environ.get('VIRTUAL_ENV')
+if virtualenv:
+	activate_this = os.path.join(virtualenv, 'bin', 'activate_this.py')
+	if os.path.exists(activate_this):
+		exec(open(activate_this).read(), dict(__file__=activate_this))
+EOF
+"}}}
+"{{{ color setting
+colorscheme zenburn
+"}}}
+"{{{ pydiction:
+filetype plugin on
+let g:pydiction_location = '/home/khai/.vim/pack/thirdparty/start/pydiction/complete-dict'
+"}}}
+let g:vimtex_view_method = 'zathura'
+if !exists('g:neocomplete#sources#omni#input_patterns')
+	let g:neocomplete#sources#omni#input_patterns = {}
 endif
+let g:neocomplete#sources#omni#input_patterns.tex =
+			\ '\v\\%('
+			\ . '\a*%(ref|cite)\a*%(\s*\[[^]]*\])?\s*\{[^{}]*'
+			\ . '|includegraphics%(\s*\[[^]]*\])?\s*\{[^{}]*'
+			\ . '|%(include|input)\s*\{[^{}]*'
+			\ . ')'
 
-"}}}
-
-" Required:
-call neobundle#begin(expand('~/.vim/bundle'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch "Shougo/neobundle.vim"
-
-
-" {{{ neocomplcache
-
-NeoBundle "Shougo/neocomplcache"
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_smart_case = 1
-"}}}
-" {{{ neosnippet
-
-NeoBundle 'Shougo/neosnippet'
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-  endif"
-
-" }}}
-" {{{ neosnippet-snippets
-
-NeoBundle 'Shougo/neosnippet-snippets'
-
-" }}}
-" {{{ vimproc
-
-NeoBundle 'Shougo/vimproc', { 'build' : { 
-		\ 'cygwin' : 'make -f make_cygwin.mak', 
-		\ 'mac' : 'make -f make_mac.mak', 
-		\ 'unix' : 'make -f make_unix.mak', 
-		\ }, 
-		\ }
-
-"}}}
-" vimfiler{{{
-
-NeoBundle "Shougo/vimfiler"
-""let g:vimfiler_as_default_explorer=1
-
-"}}}
-" unite.vim{{{
-
-NeoBundle "Shougo/neomru.vim"
-
-NeoBundle "Shougo/unite.vim"
-
-" <ESC> to leave Unite mode
-autocmd vimrc FileType unite nmap <buffer> <ESC> <Plug>(unite_exit)
-autocmd vimrc FileType unite imap <buffer> jj <Plug>(unite_insert_leave)
-
-" Unite action mapping
-autocmd vimrc FileType unite nnoremap <buffer><expr> sp unite#do_action('split')
-autocmd vimrc FileType unite nnoremap <buffer><expr> vsp unite#do_action('vsplit')
-autocmd vimrc FileType unite nnoremap <buffer><expr> tab unite#do_action('tabopen')
-
-" NOTE: overriding the mapping for 'gb', which was :ls :buf
-nnoremap gb :UniteWithBufferDir -buffer-name=files buffer file_mru file<CR>
-nnoremap gc :UniteWithCurrentDir -buffer-name=files buffer file_mru file<CR>
-nnoremap gl :Unite -buffer-name=files buffer file_mru file<CR>
-
-" resume
-nnoremap gn :UniteResume<CR>
-
-" config
-let g:unite_source_file_mru_limit = 200
-let g:unite_kind_openable_cd_command = 'CD'
-let g:unite_kind_openable_lcd_command = 'LCD'
-let g:unite_source_file_mru_filename_format = ''
-let g:unite_enable_start_insert = 1
-
-" grep search
-nnoremap <silent> ge :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
-
-" grep search under cursor
-nnoremap <silent> gu :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
-
-" re-grep
-nnoremap <silent> gr :<C-u>UniteResume search-buffer<CR>
-
-"}}}
-" unite-outline{{{
-
-NeoBundle 'Shougo/unite-outline'
-
-" outline
-""nnoremap go :Unite -auto-preview outline<CR>
-nnoremap <silent> go :<C-u>Unite -vertical -no-quit  outline<CR>
-let g:unite_winwidth = 40
-"}}}
-" unite-colorscheme{{{
-
-NeoBundle 'ujihisa/unite-colorscheme'
-
-"}}}
-" vim-colorscheme{{{
-
-NeoBundle 'flazz/vim-colorschemes'
-
-"}}}
-" vim-colors-solarized {{{
-
-NeoBundle 'altercation/vim-colors-solarized'
-set t_Co=256
-let g:solarized_termcolors = 256
-let g:solarized_bold = 0
-let g:solarized_underline = 0
-
-"}}}
-"unite-font{{{
-NeoBundle "ujihisa/unite-font"
-"}}}
-" {{{ vimshell
-
-NeoBundle 'Shougo/vimshell'
-augroup vimrc-vimshell
-	au!
-
-	" Ctrl-D to exit
-	au FileType {vimshell,int-*} imap <buffer><silent> <C-d> <ESC>:q<CR>
-
-	" Disable cursor keys
-	au FileType {vimshell,int-*} imap <buffer><silent> OA <Nop>
-	au FileType {vimshell,int-*} imap <buffer><silent> OB <Nop>
-	" au FileType {vimshell,int-*} imap <buffer><silent> OC <Nop>
-	" au FileType {vimshell,int-*} imap <buffer><silent> OD <Nop>
-
-	" Switch to insert mode on BufEnter
-	au BufEnter *vimshell* call vimshell#start_insert()
-	au BufEnter iexe-*,texe-* startinsert!
-augroup END
-
-" Interactive
-function! s:open_vimshellinteractive()
-	let default = ''
-	if has_key(g:vimshell_interactive_interpreter_commands, &filetype)
-		let default = g:vimshell_interactive_interpreter_commands[&filetype]
-	endif
-	let interp = input("Interpreter: ", default)
-	execute 'VimShellInteractive' interp
-endfunction
-nnoremap <silent> gsi :call <sid>open_vimshellinteractive()<CR>
-
-" Terminal
-function! s:open_vimshellterminal()
-	let shell = input("Interpreter: ")
-	execute 'VimShellTerminal' shell
-endfunction
-nnoremap <silent> gst :call <sid>open_vimshellterminal()<CR>
-
-" Shell
-nnoremap <silent> gsh :VimShellPop <C-R>=expand('%:h:p')<CR><CR>
-au vimrc-vimshell FileType vimshell call vimshell#altercmd#define('sl', 'ls')
-au vimrc-vimshell FileType vimshell call vimshell#altercmd#define('ll', 'ls -l')
-
-" Python
-nnoremap <silent> gspy :VimShellTerminal ipython -colors NoColor<CR>
-hi termipythonPrompt ctermfg=40
-hi termipythonOutput ctermfg=9
-
-"}}}
-" {{{tagbar
-
-NeoBundle 'majutsushi/tagbar'
-if has("mac")
-	let g:tagbar_ctags_bin='/usr/local/bin/ctags'
-elseif has("unix")
-	let g:tagbar_ctags_bin='/usr/bin/ctags'
-endif
-let g:tagbar_width=26
-nnoremap gtb :TagbarToggle<CR>
-
-"}}}
-" {{{sudo-gui
-
-NeoBundle "gmarik/sudo-gui.vim"
-
-"}}}
-"{{{ airline
-"https://powerline.readthedocs.org/en/latest/installation/linux.html#font-installation
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'vim-airline/vim-airline-themes'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-let g:airline_theme='powerlineish'
-"}}}
-" powertabline {{{
-NeoBundle 'alpaca-tc/alpaca_powertabline'
-"}}}
-"{{{ python
-NeoBundle "python.vim"
-NeoBundle "nvie/vim-flake8"
-NeoBundle "davidhalter/jedi-vim"
-"}}}
-" {{{ matchit
-NeoBundle 'matchit.zip'
-" }}}
-" {{{vim-autoclose
-
-NeoBundle 'yuroyoro/vim-autoclose'
-
-"}}}
-" {{{surround
-
-NeoBundle 'surround.vim'
-
-"}}}
-"{{{ yankring
-NeoBundle 'YankRing.vim'
-"}}}
-" {{{vim-template
-
-NeoBundle 'thinca/vim-template'
-
-"}}}
-" {{{vim-latex 
-NeoBundle "jcf/vim-latex"
-let g:tex_flavor = 'latex'
-au BufNewFile,BufRead *.tex,*.latex,*.sty,*.dtx,*.ltx,*.bbl setf tex
-set shellslash
-set grepprg=grep\ -nH\ $*'
-let g:Tex_DefaultTargetFormat  = 'pdf'
-let g:Tex_CompileRule_dvi      = 'platex -synctex=1 --interaction=nonstopmode $*'
-let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-let g:Tex_CompileRule_pdf      = 'dvipdfmx $*.dvi'
-let g:Tex_BibtextFlavor = 'pbibtex'
-if os =~ 'mac'
-	if has('gui_macvim')
-		let g:Tex_ViewRule_pdf = 'Skim'
-	else
-		let g:Tex_ViewRule_pdf  = 'open -a Preview.app'
-	endif
-elseif os =~ 'linux'
-	let g:Tex_ViewRule_pdf  = 'gnome-open'
-endif
-
-let g:Tex_IgnoredWarnings ='
-       \"Underfull\n".
-       \"Overfull\n".
-       \"specifier changed to\n".
-       \"You have requested\n".
-       \"Missing number, treated as zero.\n".
-       \"There were undefined references\n".
-       \"Citation %.%# undefined\n".
-       \"\oval, \circle, or \line size unavailable\n"'
-"}}}
-"
-" {{{vim-ruby 
-NeoBundle "vim-ruby/vim-ruby"
-compiler ruby
-"}}}
-" {{{vim-rails 
-NeoBundle "tpope/vim-rails"
-"}}}
-" {{{comments
-NeoBundle "comments.vim"
-"}}}
-" {{{vim-fugitive 
-NeoBundle "tpope/vim-fugitive"
-"}}}
-"{{{ gtags.vim
-NeoBundle "gtags.vim"
-"}}}
-"{{{ unite-gtags
-" gtags -v in project before using
-NeoBundle 'hewes/unite-gtags'
-nnoremap <leader>gg :execute 'Unite gtags/def:'.expand('<cword>')<CR>
-nnoremap <leader>gc :execute 'Unite gtags/context'<CR>
-nnoremap <leader>gr :execute 'Unite gtags/ref'<CR>
-nnoremap <leader>ge :execute 'Unite gtags/grep'<CR>
-vnoremap <leader>gg <ESC>:execute 'Unite gtags/def:'.GetVisualSelection()<CR>
-"}}}
-"{{{ unite-build
-NeoBundle 'Shougo/unite-build'
-"}}}
-"{{{ vim-easy-align
-NeoBundle "junegunn/vim-easy-align"
-" Start interactive Easy Align in visual mode
-vmap <Enter> <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object
-nmap ga <Plug>(EasyAlign)
-"}}}
-"{{{ indentLine
-NeoBundle "Yggdroot/indentLine"
-set list lcs=tab:\>\.
-"}}}
-
-call neobundle#end()
-
-" setting for solarized{{{
-syntax enable
-set background=dark
-colorscheme solarized
-"}}}
-filetype plugin indent on
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
