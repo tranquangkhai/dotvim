@@ -393,6 +393,8 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 " for python
 let g:syntastic_python_checkers = ['python', 'flake8']
+" for tex
+let g:syntastic_tex_checkers = ['lacheck', 'text/language_check']
 "}}}
 "{{{ python with virtualenv support
 python3 << EOF
@@ -405,13 +407,24 @@ if virtualenv:
 EOF
 "}}}
 "{{{ color setting
-colorscheme zenburn
+syntax enable
+set background=dark
+let g:solarized_termcolors=256
+colorscheme solarized
+"colorscheme zenburn
+"}}}
+"{{{ airline: options
+let g:airline_solarized_bg='dark'
 "}}}
 "{{{ pydiction:
 filetype plugin on
 let g:pydiction_location = '/home/khai/.vim/pack/thirdparty/start/pydiction/complete-dict'
 "}}}
+"{{{ vimtex: options
 let g:vimtex_view_method = 'zathura'
+"}}}
+
+
 if !exists('g:neocomplete#sources#omni#input_patterns')
 	let g:neocomplete#sources#omni#input_patterns = {}
 endif
