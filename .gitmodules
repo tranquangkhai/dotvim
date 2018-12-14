@@ -36,7 +36,7 @@
 	url = https://github.com/altercation/vim-colors-solarized.git
 [submodule "pack/thirdparty/start/vim-fugitive"]
 	path = pack/thirdparty/start/vim-fugitive
-	url = https://github.com/altercation/vim-colors-solarized.git
+	url = https://github.com/tpope/vim-fugitive.git
 [submodule "pack/thirdparty/start/vim-nerdtree-tabs"]
 	path = pack/thirdparty/start/vim-nerdtree-tabs
 	url = https://github.com/jistr/vim-nerdtree-tabs.git
