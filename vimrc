@@ -523,3 +523,9 @@ nmap <C-\> :Gtags -r <C-r><C-w><CR>
 nmap <C-n> :cn<CR>
 nmap <C-p> :cp<CR>
 "}}}
+"{{{ matchit.vim (default)
+runtime macros/matchit.vim
+"}}}
+"{{{ slime-vim
+let g:slime_target = "vimterminal"
+"}}}

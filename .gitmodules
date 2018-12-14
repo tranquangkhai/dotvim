@@ -46,3 +46,9 @@
 [submodule "pack/thirdparty/start/vimtex"]
 	path = pack/thirdparty/start/vimtex
 	url = https://github.com/lervag/vimtex.git
+[submodule "pack/thirdparty/start/julia-vim"]
+	path = pack/thirdparty/start/julia-vim
+	url = https://github.com/JuliaEditorSupport/julia-vim.git
+[submodule "pack/thirdparty/start/vim-slime"]
+	path = pack/thirdparty/start/vim-slime
+	url = https://github.com/jpalardy/vim-slime.git
