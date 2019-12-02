@@ -278,6 +278,10 @@ set undoreload=10000 "maximum number lines to save for undo on buffer reload
 "{{{ grep with quickfix
 au QuickFixCmdPost *grep* copen
 "}}}
+"{{{ error with quickfix
+au QuickFixCmdPost [^l]* nested cwindow
+au QuickFixCmdPost    l* nested lwindow
+"}}}
 "{{{ get running os
 function! GetRunningOS()
   if has("unix")

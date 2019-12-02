@@ -52,3 +52,9 @@
 [submodule "pack/thirdparty/start/vim-slime"]
 	path = pack/thirdparty/start/vim-slime
 	url = https://github.com/jpalardy/vim-slime.git
+[submodule "pack/thirdparty/start/tsuquyomi"]
+	path = pack/thirdparty/start/tsuquyomi
+	url = https://github.com/Quramy/tsuquyomi.git
+[submodule "pack/thirdparty/start/typescript-vim"]
+	path = pack/thirdparty/start/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git
