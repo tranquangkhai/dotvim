@@ -52,3 +52,6 @@
 [submodule "pack/thirdparty/start/vim-slime"]
 	path = pack/thirdparty/start/vim-slime
 	url = https://github.com/jpalardy/vim-slime.git
+[submodule "pack/thirdparty/start/leetcode.vim"]
+	path = pack/thirdparty/start/leetcode.vim
+	url = https://github.com/ianding1/leetcode.vim.git
