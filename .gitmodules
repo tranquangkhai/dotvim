@@ -58,6 +58,45 @@
 [submodule "pack/thirdparty/start/tsuquyomi"]
 	path = pack/thirdparty/start/tsuquyomi
 	url = https://github.com/Quramy/tsuquyomi.git
+	ignore = dirty
 [submodule "pack/thirdparty/start/typescript-vim"]
 	path = pack/thirdparty/start/typescript-vim
 	url = https://github.com/leafgarland/typescript-vim.git
+[submodule "pack/thirdparty/start/vim-lsp"]
+	path = pack/thirdparty/start/vim-lsp
+	url = https://github.com/prabirshrestha/vim-lsp.git
+[submodule "pack/thirdparty/start/async.vim"]
+	path = pack/thirdparty/start/async.vim
+	url = https://github.com/prabirshrestha/async.vim.git
+[submodule "pack/thirdparty/start/asyncomplete.vim"]
+	path = pack/thirdparty/start/asyncomplete.vim
+	url = https://github.com/prabirshrestha/asyncomplete.vim.git
+[submodule "pack/thirdparty/start/asyncomplete-lsp.vim"]
+	path = pack/thirdparty/start/asyncomplete-lsp.vim
+	url = https://github.com/prabirshrestha/asyncomplete-lsp.vim.git
+[submodule "pack/thirdparty/start/vim-lsp-settings"]
+	path = pack/thirdparty/start/vim-lsp-settings
+	url = https://github.com/mattn/vim-lsp-settings.git
+[submodule "pack/thirdparty/start/vim-lsp-icons"]
+	path = pack/thirdparty/start/vim-lsp-icons
+	url = https://github.com/mattn/vim-lsp-icons.git
+[submodule "pack/thirdparty/start/vim-vsnip"]
+	path = pack/thirdparty/start/vim-vsnip
+	url = https://github.com/hrsh7th/vim-vsnip.git
+[submodule "pack/thirdparty/start/vim-vsnip-integ"]
+	path = pack/thirdparty/start/vim-vsnip-integ
+	url = https://github.com/hrsh7th/vim-vsnip-integ.git
+	ignore = dirty
+[submodule "pack/thirdparty/start/vim-lsp-neosnippet"]
+	path = pack/thirdparty/start/vim-lsp-neosnippet
+	url = https://github.com/thomasfaingnaert/vim-lsp-neosnippet
+[submodule "pack/thirdparty/start/vim-lsp-snippets"]
+	path = pack/thirdparty/start/vim-lsp-snippets
+	url = https://github.com/thomasfaingnaert/vim-lsp-snippets
+[submodule "pack/thirdparty/start/ale"]
+	path = pack/thirdparty/start/ale
+	url = https://github.com/dense-analysis/ale.git
+[submodule "pack/thirdparty/start/vimteractive"]
+	path = pack/thirdparty/start/vimteractive
+	url = https://github.com/williamjameshandley/vimteractive
+	ignore = dirty

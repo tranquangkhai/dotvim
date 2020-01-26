@@ -147,9 +147,7 @@ endif
 " folding {{{
 
 " default folding
-set foldmethod=expr
-	\ foldexpr=lsp#ui#vim#folding#foldexpr()
-	\ foldtext=lsp#ui#vim#folding#foldtext()
+set foldmethod=marker
 set foldmarker={{{,}}}
 
 " latex folding
@@ -367,7 +365,10 @@ autocmd FileType python setl smarttab
 autocmd FileType python setl cindent
 autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
 autocmd FileType python setl textwidth=79
+autocmd FileType python set omnifunc=jedi#completions
 let python_highlight_all = 1
+nnoremap gpy :!/usr/local/bin/ctags -R --python-kinds=-i *.py<CR>
+
 "}}}
 " Ruby {{{
 autocmd FileType ruby setl autoindent
@@ -396,7 +397,32 @@ endif
 " }}}
 
 " Plugins: ----------------------
+"{{{ vim-flake8: to run the Flake8 check every time you write a Python file
+"autocmd BufWritePost *.py call Flake8()
+"}}}
+"{{{ syntastic: recommended settings for newcomers
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" for python
+let g:syntastic_python_python_exec = 'python3'
+let g:syntastic_python_checkers = ['python', 'flake8']
+" for tex
+let g:syntastic_tex_checkers = ['lacheck', 'text/language_check']
+"}}}
 "{{{ python with virtualenv support
+" import os
+" import sys
+" if 'VIRTUAL_ENV' in os.environ:
+" project_base_dir = os.environ['VIRTUAL_ENV']
+" activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+" execfile(activate_this, dict(__file__=activate_this))
+
 python3 << EOF
 import os
 virtualenv = os.environ.get('VIRTUAL_ENV')
@@ -415,6 +441,10 @@ colorscheme solarized
 "}}}
 "{{{ airline: options
 let g:airline_solarized_bg='dark'
+"}}}
+"{{{ pydiction:
+filetype plugin on
+let g:pydiction_location = '/home/khai/.vim/pack/thirdparty/start/pydiction/complete-dict'
 "}}}
 "{{{ vimtex: options
 " Ref:
@@ -437,17 +467,41 @@ let g:vimtex_compiler_latexmk = {
     \ ],
     \}
 "}}}
-"{{{ matchit.vim (default)
-runtime macros/matchit.vim
+"{{{ neocomplete: options
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#auto_completion_start_length = 2
+let g:neocomplete#max_list = 20
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=python3complete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable vimtexs omni completion
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.tex =
+\ '\v\\%('
+\ . '\a*%(ref|cite)\a*%(\s*\[[^]]*\])?\s*\{[^{}]*'
+\ . '|includegraphics%(\s*\[[^]]*\])?\s*\{[^{}]*'
+\ . '|%(include|input)\s*\{[^{}]*'
+\ . ')'
 "}}}
-"{{{ slime-vim
-let g:slime_target = "vimterminal"
-"}}}
-"{{{ leetcode.vim
-let g:leetcode_browser = 'firefox'
-let g:leetcode_solution_filetype = 'python3'
-"}}}
-"{{{ neosnippet.vim
+"{{{ neosnippet
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -462,35 +516,25 @@ xmap <C-k>     <Plug>(neosnippet_expand_target)
 " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-  endif
 "}}}
-"{{{ asynccomplete.vim
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
+"{{{ gtags setup
+"let GtagsCscope_Auto_Load = 1
+"let GtagsCscope_Auto_Map = 1
+"let GtagsCscope_Quiet = 1
+set cscopetag
+set csprg=gtags-cscope
+cs add GTAGS
+nmap <C-\> :Gtags -r <C-r><C-w><CR>
+nmap <C-n> :cn<CR>
+nmap <C-p> :cp<CR>
 "}}}
-" vim-lsp
-function! s:configure_lsp() abort
-	setlocal omnifunc=lsp#complete   " オムニ補完を有効化
-	" LSP用にマッピング
-	nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
-	nnoremap <buffer> gd :<C-u>LspDefinition<CR>
-	nnoremap <buffer> gD :<C-u>LspReferences<CR>
-	nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
-	nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
-	nnoremap <buffer> gQ :<C-u>LspDocumentFormat<CR>
-	vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
-	nnoremap <buffer> K :<C-u>LspHover<CR>
-	nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
-	nnoremap <buffer> <F2> :<C-u>LspRename<CR>
-endfunction
-" vimteractive
-let g:vimteractive_default_shells = {'python': 'ipython'}
-let g:vimteractive_vertical = 1
-
-packloadall
-silent! helptags ALL
+"{{{ matchit.vim (default)
+runtime macros/matchit.vim
+"}}}
+"{{{ slime-vim
+let g:slime_target = "vimterminal"
+"}}}
+"{{{ leetcode.vim
+let g:leetcode_browser = 'firefox'
+let g:leetcode_solution_filetype = 'python3'
+"}}}
