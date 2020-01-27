@@ -147,9 +147,10 @@ endif
 " folding {{{
 
 " default folding
-set foldmethod=expr
-	\ foldexpr=lsp#ui#vim#folding#foldexpr()
-	\ foldtext=lsp#ui#vim#folding#foldtext()
+set foldmethod=marker
+" set foldmethod=expr
+" 	\ foldexpr=lsp#ui#vim#folding#foldexpr()
+" 	\ foldtext=lsp#ui#vim#folding#foldtext()
 set foldmarker={{{,}}}
 
 " latex folding
@@ -473,10 +474,10 @@ inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
 "}}}
-" vim-lsp
+" vim-lsp{{{
 function! s:configure_lsp() abort
-	setlocal omnifunc=lsp#complete   " オムニ補完を有効化
-	" LSP用にマッピング
+	setlocal omnifunc=lsp#complete 
+
 	nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
 	nnoremap <buffer> gd :<C-u>LspDefinition<CR>
 	nnoremap <buffer> gD :<C-u>LspReferences<CR>
@@ -488,9 +489,15 @@ function! s:configure_lsp() abort
 	nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
 	nnoremap <buffer> <F2> :<C-u>LspRename<CR>
 endfunction
-" vimteractive
+"}}}
+" vimteractive{{{
 let g:vimteractive_default_shells = {'python': 'ipython'}
 let g:vimteractive_vertical = 1
+let g:vimteractive_bracketed_paste_default = 0
+"}}}
+"{{{ NERDTree
+au VimEnter * NERDTree
+"}}}
 
 packloadall
 silent! helptags ALL
