@@ -30,7 +30,7 @@ cd vim
 	--enable-fail-if-missing \
 	--prefix=/usr/local
 
-make VIMRUNTIMEDIR=/usr/local/share/vim/vim81
+sudo make VIMRUNTIMEDIR=/usr/local/share/vim/vim81
 
 sudo apt-get install checkinstall
 sudo checkinstall

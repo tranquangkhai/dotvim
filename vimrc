@@ -398,14 +398,14 @@ endif
 
 " Plugins: ----------------------
 "{{{ python with virtualenv support
-python3 << EOF
-import os
-virtualenv = os.environ.get('VIRTUAL_ENV')
-if virtualenv:
-  activate_this = os.path.join(virtualenv, 'bin', 'activate_this.py')
-  if os.path.exists(activate_this):
-    exec(open(activate_this).read(), dict(__file__=activate_this))
-EOF
+"python3 << EOF
+"import os
+"virtualenv = os.environ.get('VIRTUAL_ENV')
+"if virtualenv:
+"  activate_this = os.path.join(virtualenv, 'bin', 'activate_this.py')
+"  if os.path.exists(activate_this):
+"    exec(open(activate_this).read(), dict(__file__=activate_this))
+"EOF
 "}}}
 "{{{ color setting
 syntax enable
@@ -498,6 +498,9 @@ let g:vimteractive_bracketed_paste_default = 0
 "{{{ NERDTree
 au VimEnter * NERDTree
 "}}}
-
+"{{{ syntastic
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 1
+"}}}
 packloadall
 silent! helptags ALL
