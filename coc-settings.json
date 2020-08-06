@@ -1,0 +1,5 @@
+// coc-vimtex's settings
+{
+"coc.source.vimtex.enable": true
+}
+

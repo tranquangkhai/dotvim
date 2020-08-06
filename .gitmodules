@@ -1,27 +1,9 @@
 [submodule "pack/thirdparty/start/Zenburn"]
 	path = pack/thirdparty/start/Zenburn
 	url = https://github.com/vim-scripts/Zenburn.git
-[submodule "pack/thirdparty/start/ctrlp.vim"]
-	path = pack/thirdparty/start/ctrlp.vim
-	url = https://github.com/ctrlpvim/ctrlp.vim.git
-[submodule "pack/thirdparty/start/jedi-vim"]
-	path = pack/thirdparty/start/jedi-vim
-	url = https://github.com/davidhalter/jedi-vim.git
-[submodule "pack/thirdparty/start/neocomplete.vim"]
-	path = pack/thirdparty/start/neocomplete.vim
-	url = https://github.com/Shougo/neocomplete.vim.git
-[submodule "pack/thirdparty/start/neosnippet-snippets"]
-	path = pack/thirdparty/start/neosnippet-snippets
-	url = https://github.com/Shougo/neosnippet-snippets.git
-[submodule "pack/thirdparty/start/neosnippet.vim"]
-	path = pack/thirdparty/start/neosnippet.vim
-	url = https://github.com/Shougo/neosnippet.vim.git
 [submodule "pack/thirdparty/start/nerdtree"]
 	path = pack/thirdparty/start/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-[submodule "pack/thirdparty/start/syntastic"]
-	path = pack/thirdparty/start/syntastic
-	url = https://github.com/vim-syntastic/syntastic.git
 [submodule "pack/thirdparty/start/vim-airline"]
 	path = pack/thirdparty/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
@@ -31,66 +13,14 @@
 [submodule "pack/thirdparty/start/vim-colors-solarized"]
 	path = pack/thirdparty/start/vim-colors-solarized
 	url = https://github.com/altercation/vim-colors-solarized.git
-[submodule "pack/thirdparty/start/vim-fugitive"]
-	path = pack/thirdparty/start/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive.git
 [submodule "pack/thirdparty/start/vim-nerdtree-tabs"]
 	path = pack/thirdparty/start/vim-nerdtree-tabs
 	url = https://github.com/jistr/vim-nerdtree-tabs.git
-[submodule "pack/thirdparty/start/vim-snippets"]
-	path = pack/thirdparty/start/vim-snippets
-	url = https://github.com/honza/vim-snippets.git
-[submodule "pack/thirdparty/start/vimtex"]
-	path = pack/thirdparty/start/vimtex
-	url = https://github.com/lervag/vimtex.git
-[submodule "pack/thirdparty/start/julia-vim"]
-	path = pack/thirdparty/start/julia-vim
-	url = https://github.com/JuliaEditorSupport/julia-vim.git
-[submodule "pack/thirdparty/start/vim-slime"]
-	path = pack/thirdparty/start/vim-slime
-	url = https://github.com/jpalardy/vim-slime.git
-[submodule "pack/thirdparty/start/leetcode.vim"]
-	path = pack/thirdparty/start/leetcode.vim
-	url = https://github.com/ianding1/leetcode.vim.git
-[submodule "pack/thirdparty/start/tsuquyomi"]
-	path = pack/thirdparty/start/tsuquyomi
-	url = https://github.com/Quramy/tsuquyomi.git
-	ignore = dirty
-[submodule "pack/thirdparty/start/typescript-vim"]
-	path = pack/thirdparty/start/typescript-vim
-	url = https://github.com/leafgarland/typescript-vim.git
-[submodule "pack/thirdparty/start/vim-lsp"]
-	path = pack/thirdparty/start/vim-lsp
-	url = https://github.com/prabirshrestha/vim-lsp.git
-[submodule "pack/thirdparty/start/async.vim"]
-	path = pack/thirdparty/start/async.vim
-	url = https://github.com/prabirshrestha/async.vim.git
-[submodule "pack/thirdparty/start/asyncomplete.vim"]
-	path = pack/thirdparty/start/asyncomplete.vim
-	url = https://github.com/prabirshrestha/asyncomplete.vim.git
-[submodule "pack/thirdparty/start/asyncomplete-lsp.vim"]
-	path = pack/thirdparty/start/asyncomplete-lsp.vim
-	url = https://github.com/prabirshrestha/asyncomplete-lsp.vim.git
-[submodule "pack/thirdparty/start/vim-lsp-settings"]
-	path = pack/thirdparty/start/vim-lsp-settings
-	url = https://github.com/mattn/vim-lsp-settings.git
-[submodule "pack/thirdparty/start/vim-lsp-icons"]
-	path = pack/thirdparty/start/vim-lsp-icons
-	url = https://github.com/mattn/vim-lsp-icons.git
-[submodule "pack/thirdparty/start/vim-vsnip"]
-	path = pack/thirdparty/start/vim-vsnip
-	url = https://github.com/hrsh7th/vim-vsnip.git
-[submodule "pack/thirdparty/start/vim-vsnip-integ"]
-	path = pack/thirdparty/start/vim-vsnip-integ
-	url = https://github.com/hrsh7th/vim-vsnip-integ.git
-	ignore = dirty
-[submodule "pack/thirdparty/start/vim-lsp-neosnippet"]
-	path = pack/thirdparty/start/vim-lsp-neosnippet
-	url = https://github.com/thomasfaingnaert/vim-lsp-neosnippet
-[submodule "pack/thirdparty/start/vim-lsp-snippets"]
-	path = pack/thirdparty/start/vim-lsp-snippets
-	url = https://github.com/thomasfaingnaert/vim-lsp-snippets
 [submodule "pack/thirdparty/start/vimteractive"]
 	path = pack/thirdparty/start/vimteractive
 	url = https://github.com/williamjameshandley/vimteractive
 	ignore = dirty
+[submodule "pack/thirdparty/start/coc.nvim"]
+	path = pack/thirdparty/start/coc.nvim
+	url = https://github.com/neoclide/coc.nvim.git
+	branch = release
