@@ -62,6 +62,21 @@ let g:airline#extensions#coc#enabled = 1
 " https://wikimatze.de/vimtex-the-perfect-tool-for-working-with-tex-and-vim/
 " http://applepine1125.hatenablog.jp/entry/2017/11/13/021152
 " https://texwiki.texjp.org/?Latexmk
+let g:vimtex_version_check = 0
+let g:vimtex_compiler_latexmk = {
+    \ 'background' : 1,
+    \ 'build_dir' : '',
+    \ 'callback' : 1,
+    \ 'continuous' : 1,
+    \ 'executable' : 'latexmk',
+    \ 'options' : [
+    \   '-pdfdvi',
+    \   '-verbose',
+    \   '-file-line-error',
+    \   '-synctex=1',
+    \   '-interaction=nonstopmode',
+    \ ],
+    \}
 "}}}
 
 " TextEdit might fail if hidden is not set.

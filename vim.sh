@@ -1,5 +1,5 @@
 # Remove previous installations
-sudo apt-get remove vim vim-runtime vim-tiny vim-common
+sudo apt-get remove vim vim-runtime vim-tiny vim-common vim-nox
 
 # Install dependencies
 sudo apt-get install libncurses5-dev python-dev liblua5.3-dev lua5.3 python3-dev
@@ -30,7 +30,7 @@ cd vim
 	--enable-fail-if-missing \
 	--prefix=/usr/local
 
-sudo make VIMRUNTIMEDIR=/usr/local/share/vim/vim81
+sudo make VIMRUNTIMEDIR=/usr/local/share/vim/vim82
 
 sudo apt-get install checkinstall
 sudo checkinstall
