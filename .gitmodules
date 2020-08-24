@@ -24,3 +24,6 @@
 	path = pack/thirdparty/start/coc.nvim
 	url = https://github.com/neoclide/coc.nvim.git
 	branch = release
+[submodule "pack/thirdparty/start/vimtex"]
+	path = pack/thirdparty/start/vimtex
+	url = https://github.com/lervag/vimtex.git
