@@ -27,3 +27,9 @@
 [submodule "pack/thirdparty/start/vimtex"]
 	path = pack/thirdparty/start/vimtex
 	url = https://github.com/lervag/vimtex.git
+[submodule "pack/thirdparty/start/neosnippet.vim"]
+	path = pack/thirdparty/start/neosnippet.vim
+	url = https://github.com/Shougo/neosnippet.vim.git
+[submodule "pack/thirdparty/start/neosnippet-snippets"]
+	path = pack/thirdparty/start/neosnippet-snippets
+	url = https://github.com/Shougo/neosnippet-snippets.git

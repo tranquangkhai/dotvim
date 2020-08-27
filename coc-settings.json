@@ -1,5 +1,8 @@
-// coc-vimtex's settings
 {
-"coc.source.vimtex.enable": true
+// coc-vimtex's settings
+"coc.source.vimtex.enable": true,
+
+// make vim select first item on completion
+"suggest.noselect": false
 }
 

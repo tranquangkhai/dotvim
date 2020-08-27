@@ -1,5 +1,3 @@
-" An example for a vimrc file.
-"
 " Maintainer: Tran Quang Khai <tranquangkhai.vn@gmail.com>
 "
 " To use it, copy it to
@@ -7,6 +5,192 @@
 "      for Amiga:  s:.vimrc
 "  for MS-DOS and Win32:  $VIM\_vimrc
 "    for OpenVMS:  sys$login:.vimrc
+
+" default {{{
+
+" When started as "evim", evim.vim will already have done these settings.
+if v:progname =~? "evim"
+  finish
+endif
+
+" Use Vim settings, rather than Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+" Avoid side effects when it was already reset.
+if &compatible
+  set nocompatible
+endif
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+" When the +eval feature is missing, the set command above will be skipped.
+" Use a trick to reset compatible only when the +eval feature is missing.
+silent! while 0
+  set nocompatible
+silent! endwhile
+
+" Allow backspacing over everything in insert mode.
+set backspace=indent,eol,start
+
+" Don't use Ex mode, use Q for formatting.
+" Revert with ":unmap Q".
+map Q gq
+
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+" Revert with ":iunmap <C-U>".
+inoremap <C-U> <C-G>u<C-U>
+
+" Switch syntax highlighting on when the terminal has colors or when using the
+" GUI (which always has colors).
+if &t_Co > 2 || has("gui_running")
+  " Revert with ":syntax off".
+  syntax on
+
+  " I like highlighting strings inside C comments.
+  " Revert with ":unlet c_comment_strings".
+  let c_comment_strings=1
+endif
+
+" Only do this part when Vim was compiled with the +eval feature.
+if 1
+
+  " Enable file type detection.
+  " Use the default filetype settings, so that mail gets 'tw' set to 72,
+  " 'cindent' is on in C files, etc.
+  " Also load indent files, to automatically do language-dependent indenting.
+  " Revert with ":filetype off".
+  filetype plugin indent on
+
+  " Put these in an autocmd group, so that you can revert them with:
+  " ":augroup vimStartup | au! | augroup END"
+  augroup vimStartup
+    au!
+
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid, when inside an event handler
+    " (happens when dropping a file on gvim) and for a commit message (it's
+    " likely a different one than last time).
+    autocmd BufReadPost *
+      \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+      \ |   exe "normal! g`\""
+      \ | endif
+
+  augroup END
+
+endif
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+" Revert with: ":delcommand DiffOrig".
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+endif
+
+if has('langmap') && exists('+langremap')
+  " Prevent that the langmap option applies to characters that result from a
+  " mapping.  If set (default), this may break plugins (but it's backward
+  " compatible).
+  set nolangremap
+endif
+
+if has("vms")
+  set nobackup		" do not keep a backup file, use versions instead
+else
+  set backup		" keep a backup file (restore to previous version)
+  if has('persistent_undo')
+    set undofile	" keep an undo file (undo changes after closing)
+  endif
+endif
+
+if &t_Co > 2 || has("gui_running")
+  " Switch on highlighting the last used search pattern.
+  set hlsearch
+endif
+
+" Put these in an autocmd group, so that we can delete them easily.
+augroup vimrcEx
+  au!
+
+  " For all text files set 'textwidth' to 78 characters.
+  autocmd FileType text setlocal textwidth=78
+augroup END
+
+" }}}
+
+" {{{ Text, tab, wrap and indent related
+" Use spaces instead of tabs
+set expandtab
+
+" Be smart when using tabs ;)
+set smarttab
+
+" 1 tab == 4 spaces
+set shiftwidth=4
+set tabstop=4
+
+" Linebreak on 500 characters
+set lbr
+set tw=500
+
+set ai "Auto indent
+
+" do not wrap text by default.
+set nowrap
+
+" when wrap is on...
+let &showbreak = '> '
+set linebreak
+set breakat&
+
+" natural movement for wrapped lines
+noremap j gj
+noremap gj j
+noremap k gk
+noremap gk k
+
+" toggle wrap
+nnoremap <silent> mw :set wrap!<CR>
+
+" toggle list
+nnoremap <silent> ml :set list!<CR>
+
+" }}}
+
+" {{{
+" show line number
+set number
+
+" suppress error bells
+set noerrorbells
+set novisualbell
+
+" split direction
+set splitbelow
+set splitright
+
+" Working with split screen nicely
+" Resize Split When the window is resized"
+au VimResized * :wincmd =
+
+" make <c-l> clear the highlight as well as redraw
+nnoremap <silent> <C-L> :nohls<CR><C-L>
+" }}}
+
+" folding {{{
+
+" default folding
+set foldmethod=marker
+" set foldmethod=expr
+" 	\ foldexpr=lsp#ui#vim#folding#foldexpr()
+" 	\ foldtext=lsp#ui#vim#folding#foldtext()
+set foldmarker={{{,}}}
+
+" latex folding
+
+"}}}
 
 " FileType: ---------------------
 " Python {{{
@@ -62,7 +246,8 @@ let g:airline#extensions#coc#enabled = 1
 " https://wikimatze.de/vimtex-the-perfect-tool-for-working-with-tex-and-vim/
 " http://applepine1125.hatenablog.jp/entry/2017/11/13/021152
 " https://texwiki.texjp.org/?Latexmk
-let g:vimtex_version_check = 0
+let g:vimtex_matchparen_enabled = 0
+let g:vimtex_motion_enabled = 0
 let g:vimtex_compiler_latexmk = {
     \ 'background' : 1,
     \ 'build_dir' : '',
@@ -72,13 +257,12 @@ let g:vimtex_compiler_latexmk = {
     \ 'options' : [
     \   '-pdfdvi',
     \   '-verbose',
-    \   '-file-line-error',
-    \   '-synctex=1',
     \   '-interaction=nonstopmode',
     \ ],
     \}
 "}}}
 
+" {{{ coc.nvim
 " TextEdit might fail if hidden is not set.
 set hidden
 
@@ -227,6 +411,29 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+" }}}
+
+" {{{ neosnippet
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+  endif
+" }}}
 
 packloadall
 silent! helptags ALL
