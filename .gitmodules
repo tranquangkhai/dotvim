@@ -4,9 +4,6 @@
 [submodule "pack/thirdparty/start/nerdtree"]
 	path = pack/thirdparty/start/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-[submodule "pack/thirdparty/start/vim-airline"]
-	path = pack/thirdparty/start/vim-airline
-	url = https://github.com/vim-airline/vim-airline.git
 [submodule "pack/thirdparty/start/vim-airline-themes"]
 	path = pack/thirdparty/start/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes.git

@@ -238,16 +238,14 @@ set background=light
 colorscheme zenburn
 "}}}
 "{{{ airline: options
-let g:airline_solarized_bg='dark'
-let g:airline#extensions#coc#enabled = 1
+"let g:airline_solarized_bg='dark'
+"let g:airline#extensions#coc#enabled = 1
 "}}}
 "{{{ vimtex: options
 " Ref:
 " https://wikimatze.de/vimtex-the-perfect-tool-for-working-with-tex-and-vim/
 " http://applepine1125.hatenablog.jp/entry/2017/11/13/021152
 " https://texwiki.texjp.org/?Latexmk
-let g:vimtex_matchparen_enabled = 0
-let g:vimtex_motion_enabled = 0
 let g:vimtex_compiler_latexmk = {
     \ 'background' : 1,
     \ 'build_dir' : '',
