@@ -214,9 +214,10 @@ autocmd FileType ruby setl tabstop=2 shiftwidth=2 softtabstop=2
 "{{{ Tex
 autocmd FileType tex setlocal foldmethod=syntax
 let g:tex_fold_enabled=1
-let g:tex_fold_automatic=1
+let g:tex_fold_automatic=0
 let g:tex_fold_envs=0
 let g:tex_flavor = 'latex'
+let g:tex_conceal = ""
 "}}}
 
 " Plugins: ----------------------
@@ -246,6 +247,7 @@ colorscheme zenburn
 " https://wikimatze.de/vimtex-the-perfect-tool-for-working-with-tex-and-vim/
 " http://applepine1125.hatenablog.jp/entry/2017/11/13/021152
 " https://texwiki.texjp.org/?Latexmk
+let g:vimtex_matchparen_enabled = 0
 let g:vimtex_compiler_latexmk = {
     \ 'background' : 1,
     \ 'build_dir' : '',
